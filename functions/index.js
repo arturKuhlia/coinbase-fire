@@ -2,7 +2,7 @@ const functions = require('firebase-functions');
 const cors = require('cors')({ origin: '*' });
 
 const { Client, Webhook, resources } = require('coinbase-commerce-node');
-const coinbaseSecret = 'your-api-key';
+const coinbaseSecret = 'api-key';
 Client.init(coinbaseSecret);
 
 const { Charge } = resources;
@@ -13,14 +13,14 @@ exports.createCharge = functions.https.onRequest((req, res) => {
 
     const chargeData = {
       name: 'Widget',
-      description: 'Useless widget created by Fireship',
+      description: 'Wiget',
       local_price: {
-        amount: 9.99,
-        currency: 'USD',
+        amount: 19.99,
+        currency: 'CAD',
       },
       pricing_type: 'fixed_price',
       metadata: {
-        user: 'jeffd23',
+        user: 'usr123',
       },
     };
 
@@ -40,18 +40,17 @@ exports.webhookHandler = functions.https.onRequest(async (req, res) => {
     const event = Webhook.verifyEventBody(rawBody, signature, webhookSecret);
 
     if (event.type === 'charge:pending') {
-      // TODO
-      // user paid, but transaction not confirm on blockchain yet
+       alert("user paid, but transaction not confirm on blockchain yet")
+      
     }
 
     if (event.type === 'charge:confirmed') {
-      // TODO
-      // all good, charge confirmed
+       alert("all good, charge confirmed")
+     
     }
 
     if (event.type === 'charge:failed') {
-      // TODO
-      // charge failed or expired
+       alert("charge failed or expired")
     }
 
     res.send(`success ${event.id}`);
